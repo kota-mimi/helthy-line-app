@@ -1,15 +1,14 @@
 const nodemailer = require('nodemailer');
 
-// Gmail SMTP設定
-const transporter = nodemailer.createTransporter({
-    service: 'gmail',
-    auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD
-    }
-});
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
+    // Gmail SMTP設定
+    const transporter = nodemailer.createTransporter({
+        service: 'gmail',
+        auth: {
+            user: process.env.GMAIL_USER,
+            pass: process.env.GMAIL_APP_PASSWORD
+        }
+    });
     // CORSヘッダーを設定
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -111,4 +110,4 @@ ${message}
             message: 'メール送信中にエラーが発生しました。しばらく時間をおいてから再度お試しください。' 
         });
     }
-}
+};

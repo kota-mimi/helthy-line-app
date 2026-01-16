@@ -490,7 +490,7 @@
                 <div class="form-card">
                     <h2 class="form-card-title">お問い合わせフォーム</h2>
                     
-                    <form action="https://formsubmit.co/healthy.contact.line@gmail.com" method="POST">
+                    <form id="contactForm" action="/api/send-email" method="POST">
                         <div class="form-group">
                             <label class="form-label">
                                 お名前<span class="required">*</span>
@@ -549,11 +549,6 @@
                             </label>
                         </div>
 
-                        <!-- Hidden fields for Formsubmit configuration -->
-                        <input type="hidden" name="_subject" value="ヘルシーくんお問い合わせ">
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_template" value="table">
-                        
                         <button type="submit" class="form-submit">送信する</button>
                     </form>
                 </div>
@@ -604,13 +599,63 @@
         });
 
         // Form submission feedback
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const submitButton = this.querySelector('.form-submit');
-            submitButton.textContent = '送信中...';
-            submitButton.disabled = true;
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault(); // フォームのデフォルト送信を防ぐ
             
-            // The form will submit naturally to Formsubmit
-            // User will be redirected to a thank you page
+            const submitButton = this.querySelector('.form-submit');
+            const originalText = submitButton.textContent;
+            
+            try {
+                submitButton.textContent = '送信中...';
+                submitButton.disabled = true;
+                
+                // フォームデータを取得
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData.entries());
+                
+                // APIにPOSTリクエストを送信
+                const response = await fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // 成功時
+                    submitButton.textContent = '送信完了！';
+                    submitButton.style.background = '#28a745';
+                    
+                    // フォームをリセット
+                    this.reset();
+                    
+                    // 成功メッセージを表示
+                    alert(result.message || 'お問い合わせを受け付けました。ありがとうございます。');
+                    
+                    // 3秒後にボタンを元に戻す
+                    setTimeout(() => {
+                        submitButton.textContent = originalText;
+                        submitButton.style.background = '';
+                        submitButton.disabled = false;
+                    }, 3000);
+                } else {
+                    // エラー時
+                    throw new Error(result.message || '送信に失敗しました。');
+                }
+                
+            } catch (error) {
+                console.error('送信エラー:', error);
+                
+                // エラーメッセージを表示
+                alert(error.message || 'メール送信中にエラーが発生しました。しばらく時間をおいてから再度お試しください。');
+                
+                // ボタンを元に戻す
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
         });
     </script>
 </body>

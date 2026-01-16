@@ -549,7 +549,7 @@
                             </label>
                         </div>
 
-                        <button type="submit" class="form-submit">送信する</button>
+                        <button type="submit" class="form-submit">メールアプリで送信</button>
                     </form>
                 </div>
 
@@ -580,13 +580,7 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
-        // Initialize EmailJS
-        (function(){
-            emailjs.init("Z-gXM1_tGiUCQnhHX"); // EmailJS User ID
-        })();
-
         // Hamburger menu
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -604,38 +598,33 @@
             });
         });
 
-        // Form submission with EmailJS
+        // Form submission with mailto
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const submitButton = this.querySelector('.form-submit');
-            const originalText = submitButton.textContent;
-            submitButton.textContent = '送信中...';
-            submitButton.disabled = true;
-            
             // Get form data
-            const formData = new FormData(this);
-            const templateParams = {
-                name: formData.get('name'),
-                email: formData.get('email'),
-                phone: formData.get('phone') || '未入力',
-                category: formData.get('category'),
-                subject: formData.get('subject'),
-                message: formData.get('message')
-            };
+            const name = document.querySelector('input[name="name"]').value;
+            const email = document.querySelector('input[name="email"]').value;
+            const phone = document.querySelector('input[name="phone"]').value || '未入力';
+            const category = document.querySelector('select[name="category"]').value;
+            const subject = document.querySelector('input[name="subject"]').value;
+            const message = document.querySelector('textarea[name="message"]').value;
             
-            // Send email using EmailJS
-            emailjs.send('service_wyx0q5j', 'template_contact', templateParams)
-                .then(function(response) {
-                    alert('お問い合わせを受け付けました。\n確認メールをお送りしますので、しばらくお待ちください。');
-                    document.getElementById('contactForm').reset();
-                    submitButton.textContent = originalText;
-                    submitButton.disabled = false;
-                }, function(error) {
-                    alert('送信に失敗しました。時間をおいて再度お試しください。');
-                    submitButton.textContent = originalText;
-                    submitButton.disabled = false;
-                });
+            // Create mailto link
+            const mailtoSubject = encodeURIComponent(`【ヘルシーくんお問い合わせ】${subject}`);
+            const mailtoBody = encodeURIComponent(`
+お名前: ${name}
+メールアドレス: ${email}
+電話番号: ${phone}
+お問い合わせ種別: ${category}
+件名: ${subject}
+
+お問い合わせ内容:
+${message}
+            `);
+            
+            const mailtoLink = `mailto:healthy.contact.line@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
+            window.location.href = mailtoLink;
         });
     </script>
 </body>

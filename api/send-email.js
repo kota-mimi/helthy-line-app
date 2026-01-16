@@ -1,17 +1,4 @@
-const express = require('express');
 const nodemailer = require('nodemailer');
-const cors = require('cors');
-const path = require('path');
-require('dotenv').config();
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname)));
 
 // Gmail SMTP設定
 const transporter = nodemailer.createTransporter({
@@ -22,8 +9,25 @@ const transporter = nodemailer.createTransporter({
     }
 });
 
-// メール送信エンドポイント
-app.post('/api/send-email', async (req, res) => {
+export default async function handler(req, res) {
+    // CORSヘッダーを設定
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    // OPTIONSリクエストに対応
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
+    // POSTメソッドのみを許可
+    if (req.method !== 'POST') {
+        return res.status(405).json({ 
+            success: false, 
+            message: 'Method not allowed' 
+        });
+    }
+
     try {
         const { name, email, phone, category, subject, message, privacy } = req.body;
 
@@ -107,19 +111,4 @@ ${message}
             message: 'メール送信中にエラーが発生しました。しばらく時間をおいてから再度お試しください。' 
         });
     }
-});
-
-// ルートパス
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// サーバー起動
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-    console.log('Gmail SMTP設定:');
-    console.log('- GMAIL_USER:', process.env.GMAIL_USER || '未設定');
-    console.log('- GMAIL_APP_PASSWORD:', process.env.GMAIL_APP_PASSWORD ? '設定済み' : '未設定');
-});
-
-module.exports = app;
+}

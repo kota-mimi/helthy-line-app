@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
         :root {
             --text-primary: #0066cc;
@@ -582,9 +581,6 @@
     </footer>
 
     <script>
-        // EmailJS初期化
-        emailjs.init("YOUR_USER_ID"); // 後で設定
-
         // Hamburger menu
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -603,37 +599,46 @@
         });
 
         // フォーム送信処理
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const submitButton = this.querySelector('.form-submit');
             const originalText = submitButton.textContent;
             
-            submitButton.textContent = '送信中...';
-            submitButton.disabled = true;
-            
-            // EmailJSでメール送信
-            emailjs.sendForm('service_id', 'template_id', this)
-                .then(function() {
+            try {
+                submitButton.textContent = '送信中...';
+                submitButton.disabled = true;
+                
+                const formData = new FormData(this);
+                const response = await fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(Object.fromEntries(formData.entries()))
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
                     submitButton.textContent = '送信完了！';
                     submitButton.style.background = '#28a745';
-                    
                     alert('お問い合わせを受け付けました。ありがとうございます。');
-                    document.getElementById('contactForm').reset();
+                    this.reset();
                     
                     setTimeout(() => {
                         submitButton.textContent = originalText;
                         submitButton.style.background = '';
                         submitButton.disabled = false;
                     }, 3000);
-                })
-                .catch(function(error) {
-                    console.error('送信エラー:', error);
-                    alert('送信に失敗しました。しばらく時間をおいてから再度お試しください。');
-                    
-                    submitButton.textContent = originalText;
-                    submitButton.disabled = false;
-                });
+                } else {
+                    throw new Error(result.message);
+                }
+                
+            } catch (error) {
+                console.error('送信エラー:', error);
+                alert('送信に失敗しました: ' + error.message);
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
         });
     </script>
 </body>

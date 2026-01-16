@@ -490,7 +490,7 @@
                 <div class="form-card">
                     <h2 class="form-card-title">お問い合わせフォーム</h2>
                     
-                    <form id="contactForm" method="POST">
+                    <form action="https://formsubmit.co/healthy.contact.line@gmail.com" method="POST">
                         <div class="form-group">
                             <label class="form-label">
                                 お名前<span class="required">*</span>
@@ -549,7 +549,12 @@
                             </label>
                         </div>
 
-                        <button type="submit" class="form-submit">メールアプリで送信</button>
+                        <!-- Hidden fields for Formsubmit configuration -->
+                        <input type="hidden" name="_subject" value="ヘルシーくんお問い合わせ">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="table">
+                        
+                        <button type="submit" class="form-submit">送信する</button>
                     </form>
                 </div>
 
@@ -598,33 +603,14 @@
             });
         });
 
-        // Form submission with mailto
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Form submission feedback
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const submitButton = this.querySelector('.form-submit');
+            submitButton.textContent = '送信中...';
+            submitButton.disabled = true;
             
-            // Get form data
-            const name = document.querySelector('input[name="name"]').value;
-            const email = document.querySelector('input[name="email"]').value;
-            const phone = document.querySelector('input[name="phone"]').value || '未入力';
-            const category = document.querySelector('select[name="category"]').value;
-            const subject = document.querySelector('input[name="subject"]').value;
-            const message = document.querySelector('textarea[name="message"]').value;
-            
-            // Create mailto link
-            const mailtoSubject = encodeURIComponent(`【ヘルシーくんお問い合わせ】${subject}`);
-            const mailtoBody = encodeURIComponent(`
-お名前: ${name}
-メールアドレス: ${email}
-電話番号: ${phone}
-お問い合わせ種別: ${category}
-件名: ${subject}
-
-お問い合わせ内容:
-${message}
-            `);
-            
-            const mailtoLink = `mailto:healthy.contact.line@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
-            window.location.href = mailtoLink;
+            // The form will submit naturally to Formsubmit
+            // User will be redirected to a thank you page
         });
     </script>
 </body>

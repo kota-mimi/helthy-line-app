@@ -490,7 +490,7 @@
                 <div class="form-card">
                     <h2 class="form-card-title">お問い合わせフォーム</h2>
                     
-                    <form id="contactForm" action="#" method="POST">
+                    <form id="contactForm" action="https://formspree.io/f/xjkklank" method="POST">
                         <div class="form-group">
                             <label class="form-label">
                                 お名前<span class="required">*</span>
@@ -598,11 +598,14 @@
             });
         });
 
-        // Form submission (placeholder - connect to your backend)
+        // Form submission with success message
         document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('お問い合わせを受け付けました。\n確認メールをお送りしますので、しばらくお待ちください。');
-            // Here you would typically send the form data to your server
+            const submitButton = this.querySelector('.form-submit');
+            submitButton.textContent = '送信中...';
+            submitButton.disabled = true;
+            
+            // Let the form submit naturally to Formspree
+            // Formspree will handle the redirect and confirmation
         });
     </script>
 </body>

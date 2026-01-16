@@ -1,14 +1,4 @@
-const nodemailer = require('nodemailer');
-
 module.exports = async function handler(req, res) {
-    // Gmail SMTP設定
-    const transporter = nodemailer.createTransporter({
-        service: 'gmail',
-        auth: {
-            user: process.env.GMAIL_USER,
-            pass: process.env.GMAIL_APP_PASSWORD
-        }
-    });
     // CORSヘッダーを設定
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -51,45 +41,26 @@ module.exports = async function handler(req, res) {
 
         const categoryText = categoryMap[category] || category;
 
-        // メール本文の作成
-        const emailContent = `
-【ヘルシーくんお問い合わせ】
+        // Formsubmitを使用して確実にメール送信
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('phone', phone || '未入力');
+        formData.append('category', categoryText);
+        formData.append('subject', subject);
+        formData.append('message', message);
+        formData.append('_subject', `【ヘルシーくんお問い合わせ】${subject}`);
+        formData.append('_captcha', 'false');
+        formData.append('_template', 'table');
 
-■ お名前
-${name}
+        const formsubmitResponse = await fetch('https://formsubmit.co/healthy.contact.line@gmail.com', {
+            method: 'POST',
+            body: formData
+        });
 
-■ メールアドレス
-${email}
-
-■ 電話番号
-${phone || '未入力'}
-
-■ お問い合わせ種別
-${categoryText}
-
-■ 件名
-${subject}
-
-■ お問い合わせ内容
-${message}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-このメールは、ヘルシーくんのお問い合わせフォームから送信されました。
-返信は上記のメールアドレス（${email}）に直接お送りください。
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        `;
-
-        // メールオプション
-        const mailOptions = {
-            from: process.env.GMAIL_USER,
-            to: 'healthy.contact.line@gmail.com',
-            replyTo: email, // お客様のメールアドレスを返信先に設定
-            subject: `【ヘルシーくんお問い合わせ】${subject}`,
-            text: emailContent
-        };
-
-        // メール送信
-        await transporter.sendMail(mailOptions);
+        if (!formsubmitResponse.ok) {
+            throw new Error('メール送信に失敗しました');
+        }
 
         console.log('メール送信成功:', {
             from: email,

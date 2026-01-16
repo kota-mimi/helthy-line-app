@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
         :root {
             --text-primary: #0066cc;
@@ -490,7 +491,7 @@
                 <div class="form-card">
                     <h2 class="form-card-title">お問い合わせフォーム</h2>
                     
-                    <form action="https://formsubmit.co/healthy.contact.line@gmail.com" method="POST">
+                    <form id="contactForm">
                         <div class="form-group">
                             <label class="form-label">
                                 お名前<span class="required">*</span>
@@ -549,11 +550,6 @@
                             </label>
                         </div>
 
-                        <!-- Hidden fields for Formsubmit configuration -->
-                        <input type="hidden" name="_subject" value="ヘルシーくんお問い合わせ">
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_template" value="table">
-                        
                         <button type="submit" class="form-submit">送信する</button>
                     </form>
                 </div>
@@ -586,6 +582,9 @@
     </footer>
 
     <script>
+        // EmailJS初期化
+        emailjs.init("YOUR_USER_ID"); // 後で設定
+
         // Hamburger menu
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -603,14 +602,38 @@
             });
         });
 
-        // Form submission feedback
-        document.querySelector('form').addEventListener('submit', function(e) {
+        // フォーム送信処理
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
             const submitButton = this.querySelector('.form-submit');
+            const originalText = submitButton.textContent;
+            
             submitButton.textContent = '送信中...';
             submitButton.disabled = true;
             
-            // The form will submit naturally to Formsubmit
-            // User will be redirected to a thank you page
+            // EmailJSでメール送信
+            emailjs.sendForm('service_id', 'template_id', this)
+                .then(function() {
+                    submitButton.textContent = '送信完了！';
+                    submitButton.style.background = '#28a745';
+                    
+                    alert('お問い合わせを受け付けました。ありがとうございます。');
+                    document.getElementById('contactForm').reset();
+                    
+                    setTimeout(() => {
+                        submitButton.textContent = originalText;
+                        submitButton.style.background = '';
+                        submitButton.disabled = false;
+                    }, 3000);
+                })
+                .catch(function(error) {
+                    console.error('送信エラー:', error);
+                    alert('送信に失敗しました。しばらく時間をおいてから再度お試しください。');
+                    
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                });
         });
     </script>
 </body>

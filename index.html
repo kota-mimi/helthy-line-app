@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ヘルシーくん | 写真を送るだけ。AIが瞬時に分析する栄養管理体験</title>
+    <meta name="description" content="食事の写真をLINEに送るだけで、AIが瞬時にカロリー分析。シンプルで美しい、次世代の栄養管理">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* イチゼンブックス風の青 */
+            --text-primary: #0066cc;
+            --text-dark: #004499;
+            --text-accent: #0088dd;
+            
+            /* 食事アプリ風の温かい背景 */
+            --bg-warm: #faf6f1;
+            --bg-warm-light: #fdfbf8;
+            --bg-white: #ffffff;
+            --bg-cream: #f5f0e8;
+            
+            /* その他 */
+            --text-body: #4a4a4a;
+            --text-muted: #888888;
+            --border-light: rgba(0, 102, 204, 0.1);
+            --line-green: #06C755;
+            --accent-coral: #ff6b6b;
+            
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+            
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 40px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'M PLUS Rounded 1c', 'Zen Maru Gothic', sans-serif;
+            color: var(--text-body);
+            line-height: 1.8;
+            background: var(--bg-warm);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ========================================
+           Header - コンパクト
+        ======================================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 246, 241, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+
+        .logo {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-link {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-body);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            background: var(--bg-warm);
+            border-bottom: 1px solid var(--border-light);
+            padding: 20px 24px;
+            box-shadow: var(--shadow-md);
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 14px 0;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-body);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--text-primary);
+        }
+
+        /* ========================================
+           Container
+        ======================================== */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        /* ========================================
+           Hero Section - コンパクト + 画像上部
+        ======================================== */
+        .hero {
+            padding-top: 56px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-warm-light) 0%, var(--bg-warm) 100%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 60px 24px;
+        }
+
+        .hero-title {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: clamp(36px, 8vw, 72px);
+            font-weight: 900;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(18px, 3vw, 26px);
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .hero-subtitle-accent {
+            color: var(--text-accent);
+        }
+
+        .hero-description {
+            font-size: 15px;
+            color: var(--text-body);
+            margin-bottom: 40px;
+            line-height: 2;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--text-primary);
+            color: white;
+            padding: 18px 48px;
+            border-radius: 100px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 102, 204, 0.3);
+        }
+
+        .hero-cta:hover {
+            background: var(--text-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 102, 204, 0.4);
+        }
+
+        .hero-cta svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* ========================================
+           Features Section - iPhone mockup style
+        ======================================== */
+        .features {
+            background: var(--bg-white);
+        }
+        
+        .feature-visual {
+            display: flex;
+            justify-content: center;
+            background: none;
+        }
+
+        .feature-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+
+        .feature-item:nth-child(even) {
+            direction: rtl;
+        }
+
+        .feature-item:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .feature-content {
+            max-width: 440px;
+        }
+
+        .feature-title {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .feature-title-accent {
+            color: var(--text-accent);
+        }
+
+        .feature-description {
+            font-size: 15px;
+            color: var(--text-body);
+            margin-bottom: 24px;
+            line-height: 1.9;
+        }
+
+        .feature-points {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .feature-points li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--text-body);
+        }
+
+        .feature-points li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--line-green);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* iPhone Mockup */
+        .feature-visual {
+            display: flex;
+            justify-content: center;
+        }
+
+        .iphone-mockup {
+            width: 280px;
+            background: #1a1a1a;
+            border-radius: 44px;
+            padding: 12px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .iphone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 24px;
+            background: #000;
+            border-radius: 12px;
+            z-index: 10;
+        }
+
+        .iphone-screen {
+            background: var(--bg-warm-light);
+            border-radius: 36px;
+            overflow: hidden;
+            aspect-ratio: 9/19;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px 20px;
+        }
+
+        .iphone-placeholder-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.4;
+        }
+
+        .iphone-placeholder-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .iphone-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 28px;
+        }
+
+        /* ========================================
+           Why Section - 選ばれる理由
+        ======================================== */
+        .why {
+            background: var(--bg-warm);
+            text-align: center;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: clamp(28px, 5vw, 40px);
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 15px;
+            color: var(--text-body);
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+
+        .why-item {
+            text-align: center;
+        }
+
+        .why-item-title {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .why-item-text {
+            font-size: 14px;
+            color: var(--text-body);
+            line-height: 1.8;
+        }
+
+        /* ========================================
+           Steps Section - 使い方
+        ======================================== */
+        .steps {
+            background: var(--bg-white);
+            text-align: center;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .step-item {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--line-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto 16px;
+        }
+
+        .step-title {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .step-text {
+            font-size: 13px;
+            color: var(--text-body);
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           Pricing Section
+        ======================================== */
+        .pricing {
+            background: var(--bg-warm);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .pricing-card {
+            background: var(--bg-white);
+            border-radius: var(--radius-md);
+            padding: 24px 20px;
+            text-align: center;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--text-primary);
+            position: relative;
+        }
+
+        .pricing-card.featured::before {
+            content: '37%OFF';
+            position: absolute;
+            top: -10px;
+            right: 16px;
+            background: var(--accent-coral);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .pricing-name {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .pricing-price {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+
+        .pricing-period {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .pricing-per-month {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 0;
+        }
+
+        .pricing-features li {
+            padding: 6px 0;
+            font-size: 12px;
+            color: var(--text-body);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pricing-features li.disabled {
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--line-green);
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        .pricing-features li.disabled::before {
+            content: '×';
+            color: var(--text-muted);
+        }
+
+        .pricing-note {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* ========================================
+           FAQ Section
+        ======================================== */
+        .faq {
+            background: var(--bg-white);
+        }
+
+        .faq-list {
+            max-width: 700px;
+            margin: 60px auto 0;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .faq-question::after {
+            content: '▶';
+            font-size: 10px;
+            color: var(--text-muted);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(90deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-inner {
+            padding-bottom: 24px;
+            font-size: 14px;
+            color: var(--text-body);
+            line-height: 1.9;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        /* ========================================
+           CTA Section
+        ======================================== */
+        .cta {
+            background: var(--bg-warm);
+            text-align: center;
+            padding: 100px 24px;
+        }
+
+        .cta-title {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: clamp(26px, 5vw, 36px);
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .cta-description {
+            font-size: 15px;
+            color: var(--text-body);
+            margin-bottom: 40px;
+            line-height: 1.9;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--text-primary);
+            color: white;
+            padding: 20px 56px;
+            border-radius: 100px;
+            font-size: 17px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 102, 204, 0.3);
+        }
+
+        .cta-button:hover {
+            background: var(--text-dark);
+            transform: translateY(-2px);
+        }
+
+        .cta-button svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* ========================================
+           Footer
+        ======================================== */
+        .footer {
+            background: var(--bg-cream);
+            padding: 60px 24px 32px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .footer-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .footer-column h4 {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            font-size: 14px;
+            color: var(--text-body);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            max-width: 1000px;
+            margin: 40px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* ========================================
+           Scroll Animations
+        ======================================== */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .animate-on-scroll.animate-fade-in {
+            opacity: 0;
+            transform: translateY(0);
+        }
+
+        .animate-on-scroll.animate-slide-left {
+            opacity: 0;
+            transform: translateX(-60px);
+        }
+
+        .animate-on-scroll.animate-slide-right {
+            opacity: 0;
+            transform: translateX(60px);
+        }
+
+        .animate-on-scroll.animate-zoom {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0) translateX(0) scale(1);
+        }
+
+        /* Stagger animations for children */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .stagger-children.visible > *:nth-child(1) { transition-delay: 0.1s; }
+        .stagger-children.visible > *:nth-child(2) { transition-delay: 0.2s; }
+        .stagger-children.visible > *:nth-child(3) { transition-delay: 0.3s; }
+        .stagger-children.visible > *:nth-child(4) { transition-delay: 0.4s; }
+
+        .stagger-children.visible > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero animations */
+        .hero-content {
+            animation: heroFadeIn 1s ease forwards;
+        }
+
+        @keyframes heroFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-title {
+            animation: heroTitleIn 1s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        @keyframes heroTitleIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            animation: heroSubtitleIn 1s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        @keyframes heroSubtitleIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-description {
+            animation: heroDescIn 1s ease 0.6s forwards;
+            opacity: 0;
+        }
+
+        @keyframes heroDescIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-cta {
+            animation: heroCTAIn 1s ease 0.8s forwards;
+            opacity: 0;
+        }
+
+        @keyframes heroCTAIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* iPhone mockup special animation */
+        .iphone-mockup {
+            transition: transform 0.8s ease, box-shadow 0.8s ease;
+        }
+
+        .animate-on-scroll.visible .iphone-mockup {
+            animation: phoneFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes phoneFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Button hover enhancement */
+        .hero-cta, .cta-button {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-cta::before, .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .hero-cta:hover::before, .cta-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Section title animations */
+        .section-header {
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 3px;
+            background: var(--text-primary);
+            margin: 16px auto 0;
+            border-radius: 2px;
+            transition: width 0.8s ease 0.3s;
+        }
+
+        .animate-on-scroll.visible .section-title::after {
+            width: 60px;
+        }
+
+        /* Pricing card hover */
+        .pricing-card {
+            transition: all 0.4s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+
+        /* Step number pulse */
+        .step-number {
+            position: relative;
+        }
+
+        .animate-on-scroll.visible .step-number::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: var(--line-green);
+            animation: stepPulse 2s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes stepPulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.3); opacity: 0; }
+        }
+
+        /* Why items hover */
+        .why-item {
+            transition: transform 0.3s ease;
+        }
+
+        .why-item:hover {
+            transform: translateY(-5px);
+        }
+
+        /* FAQ smooth open */
+        .faq-answer {
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .faq-item.active .faq-answer {
+            opacity: 1;
+        }
+
+        /* ========================================
+           Responsive
+        ======================================== */
+        @media (max-width: 900px) {
+            .feature-item {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .feature-item:nth-child(even) {
+                direction: ltr;
+            }
+
+            .feature-content {
+                max-width: 100%;
+            }
+
+            .why-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .section {
+                padding: 80px 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .header-inner {
+                padding: 0 16px;
+                height: 52px;
+            }
+
+            .hero {
+                padding-top: 52px;
+            }
+
+            .hero-content {
+                padding: 40px 16px;
+            }
+
+            .hero-title {
+                font-size: 32px;
+                margin-bottom: 16px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            .hero-description {
+                font-size: 14px;
+                margin-bottom: 32px;
+            }
+
+            .hero-cta {
+                padding: 16px 36px;
+                font-size: 15px;
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .container {
+                padding: 0 16px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .section-subtitle {
+                font-size: 14px;
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .why-item {
+                padding: 20px;
+                background: var(--bg-white);
+                border-radius: var(--radius-md);
+                box-shadow: var(--shadow-sm);
+            }
+
+            .why-item-title {
+                font-size: 16px;
+            }
+
+            .why-item-text {
+                font-size: 13px;
+            }
+
+            .feature-item {
+                padding: 40px 0;
+            }
+
+            .feature-title {
+                font-size: 22px;
+            }
+
+            .feature-description {
+                font-size: 14px;
+            }
+
+            .feature-points li {
+                font-size: 13px;
+            }
+
+            .iphone-mockup {
+                width: 220px;
+            }
+
+            .steps-grid {
+                gap: 32px;
+            }
+
+            .step-number {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+
+            .step-title {
+                font-size: 15px;
+            }
+
+            .step-text {
+                font-size: 13px;
+            }
+
+            .pricing-card {
+                padding: 32px 24px;
+            }
+
+            .pricing-name {
+                font-size: 16px;
+            }
+
+            .pricing-price {
+                font-size: 36px;
+            }
+
+            .pricing-features li {
+                font-size: 13px;
+            }
+
+            .faq-question {
+                font-size: 14px;
+                padding: 20px 0;
+            }
+
+            .faq-answer-inner {
+                font-size: 13px;
+            }
+
+            .cta {
+                padding: 60px 16px;
+            }
+
+            .cta-title {
+                font-size: 24px;
+            }
+
+            .cta-description {
+                font-size: 14px;
+            }
+
+            .cta-button {
+                padding: 16px 40px;
+                font-size: 15px;
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+
+            .footer {
+                padding: 40px 16px 24px;
+            }
+
+            .footer-column h4 {
+                font-size: 13px;
+            }
+
+            .footer-links li a {
+                font-size: 13px;
+            }
+
+            .footer-bottom {
+                font-size: 11px;
+            }
+
+            /* アニメーション軽量化 */
+            .animate-on-scroll.visible .iphone-mockup {
+                animation: none;
+            }
+        }
+
+        /* 超小型デバイス */
+        @media (max-width: 360px) {
+            .hero-title {
+                font-size: 28px;
+            }
+
+            .iphone-mockup {
+                width: 200px;
+            }
+
+            .pricing-price {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="#" class="logo">ヘルシーくん</a>
+            <nav class="nav">
+                <a href="#" class="nav-link">ホーム</a>
+                <a href="#features" class="nav-link">機能</a>
+                <a href="#pricing" class="nav-link">料金</a>
+                <a href="#" class="nav-link">サポート</a>
+                <a href="contact.html" class="nav-link">お問い合わせ</a>
+            </nav>
+            <button class="hamburger" id="hamburger" aria-label="メニュー">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <a href="#">ホーム</a>
+        <a href="#features">機能</a>
+        <a href="#pricing">料金</a>
+        <a href="#">サポート</a>
+        <a href="contact.html">お問い合わせ</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">写真を送るだけ。</h1>
+            <p class="hero-subtitle">
+                AIと一緒に、食生活をもっと楽しく
+            </p>
+            <p class="hero-description">
+                LINEで写真を送って、AIとチャット。無理なく続けられる新しい健康習慣。
+            </p>
+            <a href="#" class="hero-cta">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                今すぐはじめる
+            </a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features section" id="features">
+        <div class="container">
+            <!-- Feature 1 -->
+            <div class="feature-item animate-on-scroll">
+                <div class="feature-visual">
+                    <img src="phone-nobg.png" alt="食事記録画面" style="max-width: 300px; height: auto;">
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title">写真を送るだけで<span class="feature-title-accent">自動記録</span></h3>
+                    <p class="feature-description">
+                        面倒な入力作業は一切不要。食事の写真をLINEに送るだけで、AIが自動で食材を識別し、カロリーや栄養素を計算して記録します。
+                    </p>
+                    <ul class="feature-points">
+                        <li>瞬時に食材を識別</li>
+                        <li>正確なカロリー計算</li>
+                        <li>自動でデータベースに保存</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-item animate-on-scroll">
+                <div class="feature-visual">
+                    <img src="phone2-nobg.png" alt="専用アプリ画面" style="max-width: 300px; height: auto;">
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title"><span class="feature-title-accent">専用アプリ</span>で詳細確認</h3>
+                    <p class="feature-description">
+                        LINEリッチメニューから専用アプリにアクセス。グラフや履歴で食事の傾向を一目で確認でき、効果的な健康管理ができます。
+                    </p>
+                    <ul class="feature-points">
+                        <li>美しいグラフで可視化</li>
+                        <li>過去の履歴を簡単検索</li>
+                        <li>栄養バランスの分析</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-item animate-on-scroll">
+                <div class="feature-visual">
+                    <img src="phone3-nobg.png" alt="AIチャット画面" style="max-width: 300px; height: auto;">
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title"><span class="feature-title-accent">AI</span>と自然な会話</h3>
+                    <p class="feature-description">
+                        健康の悩みやレシピの相談まで、AIと普通にLINEで会話するように気軽に相談できます。24時間いつでもサポート。
+                    </p>
+                    <ul class="feature-points">
+                        <li>自然な日本語で相談</li>
+                        <li>レシピ提案・栄養アドバイス</li>
+                        <li>24時間365日対応</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="feature-item animate-on-scroll">
+                <div class="feature-visual">
+                    <img src="phone4-nobg.png" alt="フィードバック画面" style="max-width: 300px; height: auto;">
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title">毎日の<span class="feature-title-accent">パーソナルフィードバック</span></h3>
+                    <p class="feature-description">
+                        1日の食事内容をAIが分析し、あなた専用の健康アドバイスを提供。継続的な改善で理想の健康状態へ導きます。
+                    </p>
+                    <ul class="feature-points">
+                        <li>個別の栄養バランス分析</li>
+                        <li>改善提案とアドバイス</li>
+                        <li>継続のためのモチベーション</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Section -->
+    <section class="why section">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">選ばれる理由</h2>
+                <p class="section-subtitle">LINEだけで完結する、シンプルで効果的なヘルスケア体験</p>
+            </div>
+            <div class="why-grid stagger-children animate-on-scroll">
+                <div class="why-item">
+                    <h4 class="why-item-title">瞬時にカロリー分析</h4>
+                    <p class="why-item-text">食事の写真を送るだけでAIが解析・記録。面倒な入力作業は一切不要です。</p>
+                </div>
+                <div class="why-item">
+                    <h4 class="why-item-title">24時間AIチャット</h4>
+                    <p class="why-item-text">健康相談から冷蔵庫の余り物レシピまで、いつでも気軽に相談できます。</p>
+                </div>
+                <div class="why-item">
+                    <h4 class="why-item-title">記録も一目で見れる</h4>
+                    <p class="why-item-text">詳細なグラフや履歴は、トーク画面下のメニューから専用ページへ1タップ。</p>
+                </div>
+                <div class="why-item">
+                    <h4 class="why-item-title">毎日のフィードバック</h4>
+                    <p class="why-item-text">1日の終わりに、AIがあなたの食事内容を振り返りアドバイスします。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Steps Section -->
+    <section class="steps section">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">使い方はとっても簡単</h2>
+                <p class="section-subtitle">たった3ステップで健康管理を始められます</p>
+            </div>
+            <div class="steps-grid stagger-children animate-on-scroll">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <h4 class="step-title">友だち追加</h4>
+                    <p class="step-text">公式LINEアカウントを友だちに追加するだけ</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <h4 class="step-title">写真を送信</h4>
+                    <p class="step-text">食事の写真をトークに送るだけ</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <h4 class="step-title">分析完了</h4>
+                    <p class="step-text">すぐにカロリー分析とアドバイスが届きます</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing section" id="pricing">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">料金プラン</h2>
+                <p class="section-subtitle">あなたに合ったプランをお選びください</p>
+            </div>
+            <div class="pricing-grid stagger-children animate-on-scroll">
+                <div class="pricing-card">
+                    <h4 class="pricing-name">無料プラン</h4>
+                    <div class="pricing-price">無料</div>
+                    <div class="pricing-period">&nbsp;</div>
+                    <div class="pricing-per-month">&nbsp;</div>
+                    <ul class="pricing-features">
+                        <li>AI会話：1日3回まで</li>
+                        <li>LINE記録：1日1回まで</li>
+                        <li>基本的な記録機能</li>
+                        <li class="disabled">アプリからAI記録は使用不可</li>
+                        <li class="disabled">1日のフィードバック機能なし</li>
+                    </ul>
+                </div>
+                <div class="pricing-card">
+                    <h4 class="pricing-name">月額プラン</h4>
+                    <div class="pricing-price">¥790</div>
+                    <div class="pricing-period">/月額</div>
+                    <div class="pricing-per-month">&nbsp;</div>
+                    <ul class="pricing-features">
+                        <li>すべての機能が無制限</li>
+                        <li>AI会話・記録が使い放題</li>
+                        <li>1日のフィードバック機能</li>
+                        <li>アプリからAI記録機能</li>
+                    </ul>
+                </div>
+                <div class="pricing-card featured">
+                    <h4 class="pricing-name">半年プラン</h4>
+                    <div class="pricing-price">¥3,000</div>
+                    <div class="pricing-period">/6ヶ月</div>
+                    <div class="pricing-per-month">月額換算 ¥500/月</div>
+                    <ul class="pricing-features">
+                        <li>すべての機能が無制限</li>
+                        <li>AI会話・記録が使い放題</li>
+                        <li>1日のフィードバック機能</li>
+                        <li>アプリからAI記録機能</li>
+                        <li style="color: var(--accent-coral); font-weight: 600;">月額より37%お得！</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="pricing-note">
+                ※ 初回登録から3日間、すべての機能を無料でお試しいただけます<br>
+                料金は税込み価格です。いつでもプラン変更・解約が可能です。
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq section" id="faq">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">よくある質問</h2>
+                <p class="section-subtitle">ヘルシーくんについて、よくいただく質問にお答えします</p>
+            </div>
+            <div class="faq-list animate-on-scroll">
+                <div class="faq-item">
+                    <button class="faq-question">本当に無料で使えますか？</button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            はい、無料プランでは1日3回までのAI会話と1日1回の食事記録が可能です。また、初回登録から3日間はすべての機能を無料でお試しいただけます。
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">アプリのインストールは必要ですか？</button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            いいえ、LINEアプリがあれば他のアプリをインストールする必要はありません。LINEのトーク画面から写真を送るだけで、すべての機能をご利用いただけます。
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">初心者でも使えますか？</button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            はい、LINEで写真を送ったりメッセージを送るだけなので、スマートフォンの操作に慣れていない方でも簡単にお使いいただけます。難しい設定は一切ありません。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="cta">
+        <div class="animate-on-scroll animate-zoom">
+            <h2 class="cta-title">今すぐ始めてみませんか？</h2>
+        <p class="cta-description">
+            登録は無料。アプリのインストールも不要です。<br>
+            LINEがあれば、今すぐにでもAI栄養士との生活が始まります。
+        </p>
+        <a href="#" class="cta-button">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            LINEで無料で始める
+        </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-column">
+                <h4>サービス</h4>
+                <ul class="footer-links">
+                    <li><a href="#features">機能</a></li>
+                    <li><a href="#pricing">料金</a></li>
+                    <li><a href="#">サポート</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>その他</h4>
+                <ul class="footer-links">
+                    <li><a href="contact.html">お問い合わせ</a></li>
+                    <li><a href="privacy.html">プライバシーポリシー</a></li>
+                    <li><a href="terms.html">利用規約</a></li>
+                    <li><a href="tokushoho.html">特定商取引法表記</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 ヘルシーくん All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Animation Observer
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Hamburger menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when link clicked
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = document.querySelector('.header').offsetHeight;
+                    window.scrollTo({
+                        top: target.offsetTop - offset,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect on scroll (subtle)
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+                hero.style.opacity = 1 - (scrolled * 0.001);
+            }
+        });
+    </script>
+</body>
+</html>

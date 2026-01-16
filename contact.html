@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お問い合わせ | ヘルシーくん</title>
+    <meta name="description" content="ヘルシーくんへのお問い合わせはこちらから。サービスに関するご質問・ご相談はお気軽にどうぞ。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --text-primary: #0066cc;
+            --text-dark: #004499;
+            --text-accent: #0088dd;
+            --bg-warm: #faf6f1;
+            --bg-warm-light: #fdfbf8;
+            --bg-white: #ffffff;
+            --bg-cream: #f5f0e8;
+            --text-body: #4a4a4a;
+            --text-muted: #888888;
+            --border-light: rgba(0, 102, 204, 0.1);
+            --border-input: #ddd;
+            --line-green: #06C755;
+            --accent-coral: #ff6b6b;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'M PLUS Rounded 1c', 'Zen Maru Gothic', sans-serif;
+            color: var(--text-body);
+            line-height: 1.8;
+            background: var(--bg-warm);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 246, 241, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+
+        .logo {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-link {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-body);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            background: var(--bg-warm);
+            border-bottom: 1px solid var(--border-light);
+            padding: 20px 24px;
+            box-shadow: var(--shadow-md);
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 14px 0;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-body);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .main {
+            padding-top: 56px;
+            min-height: calc(100vh - 200px);
+        }
+
+        .contact-hero {
+            background: var(--bg-warm-light);
+            padding: 60px 24px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .contact-hero-title {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: clamp(28px, 5vw, 36px);
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .contact-hero-text {
+            font-size: 15px;
+            color: var(--text-body);
+        }
+
+        /* Form Section */
+        .contact-section {
+            padding: 60px 24px;
+        }
+
+        .contact-container {
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .form-card {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: 48px 40px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+
+        .form-card-title {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-body);
+            margin-bottom: 8px;
+        }
+
+        .form-label .required {
+            color: var(--accent-coral);
+            margin-left: 4px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--text-body);
+            background: var(--bg-warm-light);
+            border: 1px solid var(--border-input);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--text-primary);
+            background: var(--bg-white);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        .form-textarea {
+            min-height: 160px;
+            resize: vertical;
+            line-height: 1.7;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 32px;
+        }
+
+        .form-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 3px;
+            cursor: pointer;
+            accent-color: var(--text-primary);
+        }
+
+        .form-checkbox-label {
+            font-size: 14px;
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        .form-checkbox-label a {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 16px 32px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--bg-white);
+            background: var(--text-primary);
+            border: none;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 102, 204, 0.25);
+        }
+
+        .form-submit:hover {
+            background: var(--text-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(0, 102, 204, 0.35);
+        }
+
+        .form-submit:active {
+            transform: translateY(0);
+        }
+
+        /* Email Fallback */
+        .email-fallback {
+            margin-top: 40px;
+            padding: 24px;
+            background: var(--bg-cream);
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+
+        .email-fallback p {
+            font-size: 14px;
+            color: var(--text-body);
+            margin-bottom: 8px;
+        }
+
+        .email-fallback a {
+            color: var(--text-primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .email-fallback a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+
+        /* Back Link */
+        .back-link {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .back-link a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .back-link a:hover {
+            opacity: 0.7;
+        }
+
+        .back-link a::before {
+            content: '←';
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-cream);
+            padding: 40px 24px 24px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .footer-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            font-size: 13px;
+            color: var(--text-body);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-copyright {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .nav {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .form-card {
+                padding: 32px 24px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="index.html" class="logo">ヘルシーくん</a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">ホーム</a>
+                <a href="index.html#features" class="nav-link">機能</a>
+                <a href="index.html#pricing" class="nav-link">料金</a>
+                <a href="#" class="nav-link">サポート</a>
+                <a href="contact.html" class="nav-link">お問い合わせ</a>
+            </nav>
+            <button class="hamburger" id="hamburger" aria-label="メニュー">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <a href="index.html">ホーム</a>
+        <a href="index.html#features">機能</a>
+        <a href="index.html#pricing">料金</a>
+        <a href="#">サポート</a>
+        <a href="contact.html">お問い合わせ</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero -->
+        <section class="contact-hero">
+            <h1 class="contact-hero-title">お問い合わせ</h1>
+            <p class="contact-hero-text">サービスに関するご質問・ご相談はお気軽にお問い合わせください</p>
+        </section>
+
+        <!-- Form Section -->
+        <section class="contact-section">
+            <div class="contact-container">
+                <div class="form-card">
+                    <h2 class="form-card-title">お問い合わせフォーム</h2>
+                    
+                    <form id="contactForm" action="#" method="POST">
+                        <div class="form-group">
+                            <label class="form-label">
+                                お名前<span class="required">*</span>
+                            </label>
+                            <input type="text" class="form-input" name="name" placeholder="山田 太郎" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                メールアドレス<span class="required">*</span>
+                            </label>
+                            <input type="email" class="form-input" name="email" placeholder="example@email.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                電話番号（任意）
+                            </label>
+                            <input type="tel" class="form-input" name="phone" placeholder="090-1234-5678">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                お問い合わせ種別<span class="required">*</span>
+                            </label>
+                            <select class="form-select" name="category" required>
+                                <option value="">選択してください</option>
+                                <option value="service">サービス・機能について</option>
+                                <option value="payment">料金・お支払いについて</option>
+                                <option value="bug">技術的な問題・バグ報告</option>
+                                <option value="account">アカウント・登録について</option>
+                                <option value="business">法人・事業提携について</option>
+                                <option value="media">メディア・取材について</option>
+                                <option value="other">その他</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                件名<span class="required">*</span>
+                            </label>
+                            <input type="text" class="form-input" name="subject" placeholder="お問い合わせの件名" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                お問い合わせ内容<span class="required">*</span>
+                            </label>
+                            <textarea class="form-textarea" name="message" placeholder="お問い合わせ内容をご記入ください" required></textarea>
+                        </div>
+
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="privacy" name="privacy" required>
+                            <label class="form-checkbox-label" for="privacy">
+                                <a href="privacy.html" target="_blank">プライバシーポリシー</a>に同意します<span class="required">*</span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="form-submit">送信する</button>
+                    </form>
+                </div>
+
+                <!-- Email Fallback -->
+                <div class="email-fallback">
+                    <p>フォームをご利用いただけない場合は、直接メールでお問い合わせください：</p>
+                    <a href="mailto:healthy.contact.line@gmail.com">healthy.contact.line@gmail.com</a>
+                </div>
+
+                <!-- Back Link -->
+                <div class="back-link">
+                    <a href="index.html">トップページに戻る</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-links">
+                <a href="index.html">トップページ</a>
+                <a href="privacy.html">プライバシーポリシー</a>
+                <a href="terms.html">利用規約</a>
+                <a href="tokushoho.html">特定商取引法表記</a>
+            </div>
+            <p class="footer-copyright">© 2025 ヘルシーくん All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when link clicked
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Form submission (placeholder - connect to your backend)
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('お問い合わせを受け付けました。\n確認メールをお送りしますので、しばらくお待ちください。');
+            // Here you would typically send the form data to your server
+        });
+    </script>
+</body>
+</html>

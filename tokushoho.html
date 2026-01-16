@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特定商取引法に基づく表記 | ヘルシーくん</title>
+    <meta name="description" content="ヘルシーくんの特定商取引法に基づく表記。販売事業者情報・料金・返品ポリシーについてご説明します。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --text-primary: #0066cc;
+            --text-dark: #004499;
+            --text-accent: #0088dd;
+            --bg-warm: #faf6f1;
+            --bg-warm-light: #fdfbf8;
+            --bg-white: #ffffff;
+            --bg-cream: #f5f0e8;
+            --text-body: #4a4a4a;
+            --text-muted: #888888;
+            --border-light: rgba(0, 102, 204, 0.1);
+            --line-green: #06C755;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'M PLUS Rounded 1c', 'Zen Maru Gothic', sans-serif;
+            color: var(--text-body);
+            line-height: 1.8;
+            background: var(--bg-warm);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 246, 241, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+
+        .logo {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-link {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-body);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            background: var(--bg-warm);
+            border-bottom: 1px solid var(--border-light);
+            padding: 20px 24px;
+            box-shadow: var(--shadow-md);
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 14px 0;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-body);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .main {
+            padding-top: 56px;
+        }
+
+        .page-hero {
+            background: var(--bg-warm-light);
+            padding: 60px 24px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .page-hero-title {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: clamp(24px, 5vw, 32px);
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .page-hero-text {
+            font-size: 15px;
+            color: var(--text-body);
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 60px 24px;
+        }
+
+        .content-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: 48px 40px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+
+        /* Table Style */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .info-table tr {
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .info-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .info-table th {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: left;
+            padding: 20px 16px 20px 0;
+            vertical-align: top;
+            width: 160px;
+            white-space: nowrap;
+        }
+
+        .info-table td {
+            font-size: 14px;
+            color: var(--text-body);
+            padding: 20px 0;
+            line-height: 1.8;
+        }
+
+        .info-table td a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .info-table td a:hover {
+            text-decoration: underline;
+        }
+
+        .price-list {
+            margin: 8px 0;
+        }
+
+        .price-item {
+            margin-bottom: 4px;
+        }
+
+        .price-note {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .date-info {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-light);
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .date-info p {
+            margin-bottom: 4px;
+        }
+
+        /* Back Link */
+        .back-link {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .back-link a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .back-link a:hover {
+            opacity: 0.7;
+        }
+
+        .back-link a::before {
+            content: '←';
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-cream);
+            padding: 40px 24px 24px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .footer-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            font-size: 13px;
+            color: var(--text-body);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-copyright {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .nav {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .content-container {
+                padding: 32px 20px;
+            }
+
+            .info-table,
+            .info-table tbody,
+            .info-table tr,
+            .info-table th,
+            .info-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .info-table tr {
+                padding: 16px 0;
+            }
+
+            .info-table th {
+                padding: 0 0 8px 0;
+                width: 100%;
+            }
+
+            .info-table td {
+                padding: 0;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="index.html" class="logo">ヘルシーくん</a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">ホーム</a>
+                <a href="index.html#features" class="nav-link">機能</a>
+                <a href="index.html#pricing" class="nav-link">料金</a>
+                <a href="#" class="nav-link">サポート</a>
+                <a href="contact.html" class="nav-link">お問い合わせ</a>
+            </nav>
+            <button class="hamburger" id="hamburger" aria-label="メニュー">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <a href="index.html">ホーム</a>
+        <a href="index.html#features">機能</a>
+        <a href="index.html#pricing">料金</a>
+        <a href="#">サポート</a>
+        <a href="contact.html">お問い合わせ</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero -->
+        <section class="page-hero">
+            <h1 class="page-hero-title">特定商取引法に基づく表記</h1>
+            <p class="page-hero-text">販売事業者情報・料金・返品ポリシーについて</p>
+        </section>
+
+        <!-- Content Section -->
+        <section class="content-section">
+            <div class="content-container">
+                <table class="info-table">
+                    <tbody>
+                        <tr>
+                            <th>販売事業者</th>
+                            <td>ヘルシーくん運営者</td>
+                        </tr>
+                        <tr>
+                            <th>運営統括責任者</th>
+                            <td>お問い合わせ時に開示いたします</td>
+                        </tr>
+                        <tr>
+                            <th>所在地</th>
+                            <td>お問い合わせ時に開示いたします</td>
+                        </tr>
+                        <tr>
+                            <th>メールアドレス</th>
+                            <td><a href="mailto:healthy.contact.line@gmail.com">healthy.contact.line@gmail.com</a></td>
+                        </tr>
+                        <tr>
+                            <th>サービス内容</th>
+                            <td>
+                                AI技術を活用した健康管理・栄養相談サービスの提供<br>
+                                LINE公式アカウントを通じた食事分析・記録サービス
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>料金</th>
+                            <td>
+                                <div class="price-list">
+                                    <div class="price-item">無料プラン：0円</div>
+                                    <div class="price-item">月額プラン：790円（税込）</div>
+                                    <div class="price-item">半年プラン：3,000円（税込）</div>
+                                </div>
+                                <p class="price-note">※ 初回登録から3日間、すべての機能を無料でお試しいただけます</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>支払方法</th>
+                            <td>
+                                クレジットカード（VISA、MasterCard、JCB、American Express、Diners Club）<br>
+                                Apple Pay、Google Pay
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>サービス提供時期</th>
+                            <td>お申し込み完了後、即時サービス開始</td>
+                        </tr>
+                        <tr>
+                            <th>解約・退会について</th>
+                            <td>
+                                利用者は、いつでも任意の理由により解約・退会することができます。<br>
+                                解約手続きは、LINE公式アカウント内の設定メニューまたはカスタマーサポートにて承ります。<br>
+                                解約後は、サービスの利用ができなくなりますが、日割りでの返金は行いません。
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>返品・返金について</th>
+                            <td>
+                                当サービスはデジタルコンテンツのため、原則として返品・返金は承っておりません。<br>
+                                ただし、システム障害等、当社の責めに帰すべき事由により、サービスが正常に提供されなかった場合は、この限りではありません。
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>表現、及びサービスに関する注意書き</th>
+                            <td>
+                                本サービスで提供される情報は、一般的な健康情報であり、医学的診断や治療の代替となるものではありません。<br>
+                                健康上の問題がある場合は、医師にご相談ください。<br>
+                                AI分析結果の精度については、継続的な改善に努めておりますが、100%の正確性を保証するものではありません。
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>個人情報の取扱い</th>
+                            <td>
+                                お客様の個人情報は、「<a href="privacy.html">プライバシーポリシー</a>」に従って適切に取り扱います。<br>
+                                詳細は、プライバシーポリシーをご確認ください。
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- 日付情報 -->
+                <div class="date-info">
+                    <p>制定日：2026年1月16日</p>
+                    <p>最終更新日：2026年1月16日</p>
+                </div>
+            </div>
+
+            <!-- Back Link -->
+            <div class="back-link">
+                <a href="index.html">トップページに戻る</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-links">
+                <a href="index.html">トップページ</a>
+                <a href="privacy.html">プライバシーポリシー</a>
+                <a href="terms.html">利用規約</a>
+                <a href="tokushoho.html">特定商取引法表記</a>
+            </div>
+            <p class="footer-copyright">© 2025 ヘルシーくん All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when link clicked
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

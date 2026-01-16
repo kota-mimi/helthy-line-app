@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プライバシーポリシー | ヘルシーくん</title>
+    <meta name="description" content="ヘルシーくんのプライバシーポリシー。個人情報の取り扱いについてご説明します。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --text-primary: #0066cc;
+            --text-dark: #004499;
+            --text-accent: #0088dd;
+            --bg-warm: #faf6f1;
+            --bg-warm-light: #fdfbf8;
+            --bg-white: #ffffff;
+            --bg-cream: #f5f0e8;
+            --text-body: #4a4a4a;
+            --text-muted: #888888;
+            --border-light: rgba(0, 102, 204, 0.1);
+            --line-green: #06C755;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'M PLUS Rounded 1c', 'Zen Maru Gothic', sans-serif;
+            color: var(--text-body);
+            line-height: 1.8;
+            background: var(--bg-warm);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 246, 241, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+
+        .logo {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-link {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-body);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            background: var(--bg-warm);
+            border-bottom: 1px solid var(--border-light);
+            padding: 20px 24px;
+            box-shadow: var(--shadow-md);
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 14px 0;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-body);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .main {
+            padding-top: 56px;
+        }
+
+        .page-hero {
+            background: var(--bg-warm-light);
+            padding: 60px 24px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .page-hero-title {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: clamp(28px, 5vw, 36px);
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .page-hero-text {
+            font-size: 15px;
+            color: var(--text-body);
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 60px 24px;
+        }
+
+        .content-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: 48px 40px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+
+        .content-intro {
+            font-size: 15px;
+            color: var(--text-body);
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .section-block {
+            margin-bottom: 40px;
+        }
+
+        .section-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .subsection-title {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 20px 0 12px;
+        }
+
+        .content-text {
+            font-size: 14px;
+            color: var(--text-body);
+            line-height: 1.9;
+            margin-bottom: 16px;
+        }
+
+        .content-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-list {
+            margin: 12px 0;
+            padding-left: 20px;
+        }
+
+        .content-list li {
+            font-size: 14px;
+            color: var(--text-body);
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        .content-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .nested-list {
+            margin-top: 8px;
+            padding-left: 20px;
+        }
+
+        .nested-list li {
+            font-size: 13px;
+        }
+
+        .info-box {
+            background: var(--bg-cream);
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            margin: 16px 0;
+        }
+
+        .info-box p {
+            font-size: 13px;
+            color: var(--text-body);
+            margin-bottom: 8px;
+        }
+
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-box a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .info-box a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+
+        .external-service {
+            background: var(--bg-warm-light);
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            margin: 12px 0;
+            border-left: 3px solid var(--text-primary);
+        }
+
+        .external-service-name {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .external-service p {
+            font-size: 13px;
+            color: var(--text-body);
+            margin-bottom: 4px;
+        }
+
+        .date-info {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-light);
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .date-info p {
+            margin-bottom: 4px;
+        }
+
+        /* Back Link */
+        .back-link {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .back-link a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .back-link a:hover {
+            opacity: 0.7;
+        }
+
+        .back-link a::before {
+            content: '←';
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-cream);
+            padding: 40px 24px 24px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .footer-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            font-size: 13px;
+            color: var(--text-body);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-copyright {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .nav {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .content-container {
+                padding: 32px 24px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="index.html" class="logo">ヘルシーくん</a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">ホーム</a>
+                <a href="index.html#features" class="nav-link">機能</a>
+                <a href="index.html#pricing" class="nav-link">料金</a>
+                <a href="#" class="nav-link">サポート</a>
+                <a href="contact.html" class="nav-link">お問い合わせ</a>
+            </nav>
+            <button class="hamburger" id="hamburger" aria-label="メニュー">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <a href="index.html">ホーム</a>
+        <a href="index.html#features">機能</a>
+        <a href="index.html#pricing">料金</a>
+        <a href="#">サポート</a>
+        <a href="contact.html">お問い合わせ</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero -->
+        <section class="page-hero">
+            <h1 class="page-hero-title">プライバシーポリシー</h1>
+            <p class="page-hero-text">個人情報の取り扱いについて</p>
+        </section>
+
+        <!-- Content Section -->
+        <section class="content-section">
+            <div class="content-container">
+                <p class="content-intro">
+                    ヘルシーくん運営者（以下「当方」）は、ユーザーの個人情報保護を重要事項と位置づけ、個人情報保護法その他の関連法令を遵守し、適切な取り扱いに努めます。
+                </p>
+
+                <!-- 第1条 -->
+                <div class="section-block">
+                    <h2 class="section-title">第1条（個人情報の定義）</h2>
+                    
+                    <h3 class="subsection-title">1.1 個人情報</h3>
+                    <p class="content-text">
+                        本プライバシーポリシーにおいて「個人情報」とは、個人情報保護法第2条第1項に定義される、生存する個人に関する情報であって、当該情報に含まれる氏名、生年月日その他の記述等により特定の個人を識別することができるもの（他の情報と容易に照合することができ、それにより特定の個人を識別することができることとなるものを含む）を指します。
+                    </p>
+
+                    <h3 class="subsection-title">1.2 要配慮個人情報</h3>
+                    <p class="content-text">
+                        本プライバシーポリシーにおいて「要配慮個人情報」とは、個人情報保護法第2条第3項に定義される、人種、信条、社会的身分、病歴、犯罪の経歴、犯罪により害を被った事実その他本人に対する不当な差別、偏見その他の不利益が生じないようにその取扱いに特に配慮を要するものとして政令で定める記述等が含まれる個人情報を指します。
+                    </p>
+                </div>
+
+                <!-- 第2条 -->
+                <div class="section-block">
+                    <h2 class="section-title">第2条（収集する情報）</h2>
+                    
+                    <h3 class="subsection-title">2.1 直接提供いただく情報</h3>
+                    
+                    <p class="content-text"><strong>基本情報</strong></p>
+                    <ul class="content-list">
+                        <li>LINEユーザーID、ディスプレイ名、プロフィール画像</li>
+                        <li>氏名、性別、年齢、生年月日</li>
+                        <li>連絡先情報（メールアドレス等）</li>
+                    </ul>
+
+                    <p class="content-text"><strong>身体・健康情報（要配慮個人情報）</strong></p>
+                    <ul class="content-list">
+                        <li>身長、体重、BMI、体脂肪率</li>
+                        <li>目標体重、目標カロリー支出</li>
+                        <li>食事記録（摂取カロリー、栄養素等）</li>
+                        <li>運動記録（消費カロリー、運動種目等）</li>
+                        <li>健康状態、病歴、アレルギー情報</li>
+                        <li>服薬情報、医療機関受診履歴</li>
+                    </ul>
+
+                    <p class="content-text"><strong>サービス利用情報</strong></p>
+                    <ul class="content-list">
+                        <li>AIチャットでの会話内容および履歴</li>
+                        <li>ユーザーの質問、相談内容</li>
+                        <li>サービスへのフィードバック、評価</li>
+                    </ul>
+
+                    <p class="content-text"><strong>決済情報</strong></p>
+                    <ul class="content-list">
+                        <li>サブスクリプションプラン情報</li>
+                        <li>決済履歴、課金情報</li>
+                        <li>クレジットカード情報（最後の4桁のみ）</li>
+                    </ul>
+
+                    <h3 class="subsection-title">2.2 自動的に収集される情報</h3>
+                    
+                    <p class="content-text"><strong>アクセス情報</strong></p>
+                    <ul class="content-list">
+                        <li>IPアドレス、アクセスログ</li>
+                        <li>リファラーURL、アクセス日時</li>
+                        <li>ユーザーエージェント、ブラウザ情報</li>
+                    </ul>
+
+                    <p class="content-text"><strong>デバイス情報</strong></p>
+                    <ul class="content-list">
+                        <li>デバイスタイプ、OS情報</li>
+                        <li>画面サイズ、解像度</li>
+                        <li>アプリバージョン、言語設定</li>
+                    </ul>
+
+                    <p class="content-text"><strong>サービス利用状況</strong></p>
+                    <ul class="content-list">
+                        <li>ページ閲覧履歴、滞在時間</li>
+                        <li>クリック、タップ操作履歴</li>
+                        <li>機能利用頻度、エラーログ</li>
+                    </ul>
+
+                    <h3 class="subsection-title">2.3 Cookieおよび類似技術</h3>
+                    <p class="content-text">
+                        当方は、サービスの改善およびユーザー体験の向上のために、Cookie、Webビーコン、ローカルストレージ等の技術を使用します。これらの技術は、ブラウザ設定により無効化することが可能ですが、一部機能が制限される場合があります。
+                    </p>
+                </div>
+
+                <!-- 第3条 -->
+                <div class="section-block">
+                    <h2 class="section-title">第3条（利用目的）</h2>
+                    <p class="content-text">当方は、収集した個人情報を以下の目的のために利用します：</p>
+
+                    <h3 class="subsection-title">3.1 サービス提供関連</h3>
+                    <ul class="content-list">
+                        <li>健康管理サポートサービスの提供</li>
+                        <li>パーソナライズされた健康アドバイスの生成</li>
+                        <li>AIチャットによる相談対応および回答生成</li>
+                        <li>食事・運動記録の管理および分析</li>
+                        <li>目標達成状況の追跡およびフィードバック</li>
+                        <li>ユーザー認証およびアカウント管理</li>
+                    </ul>
+
+                    <h3 class="subsection-title">3.2 サービス改善関連</h3>
+                    <ul class="content-list">
+                        <li>サービスの改善および新機能開発</li>
+                        <li>ユーザー体験の向上およびパーソナライゼーション</li>
+                        <li>システムの保守・運用およびセキュリティ向上</li>
+                        <li>サービス利用状況の分析および改善</li>
+                    </ul>
+
+                    <h3 class="subsection-title">3.3 コミュニケーション関連</h3>
+                    <ul class="content-list">
+                        <li>カスタマーサポートの提供</li>
+                        <li>お問い合わせへの対応</li>
+                        <li>重要なお知らせやアップデート情報の通知</li>
+                        <li>ユーザーアンケートやフィードバックの依頼</li>
+                    </ul>
+
+                    <h3 class="subsection-title">3.4 決済・課金関連</h3>
+                    <ul class="content-list">
+                        <li>料金の課金および決済処理</li>
+                        <li>サブスクリプションの管理</li>
+                        <li>決済トラブルの調査および解決</li>
+                        <li>課金明細の発行および送付</li>
+                    </ul>
+
+                    <h3 class="subsection-title">3.5 法令遵守関連</h3>
+                    <ul class="content-list">
+                        <li>本人確認および年齢確認</li>
+                        <li>法令に基づく開示要求への対応</li>
+                        <li>不正利用の発生防止および対応</li>
+                        <li>統計データの作成（個人を特定できない形式）</li>
+                    </ul>
+                </div>
+
+                <!-- 第4条 -->
+                <div class="section-block">
+                    <h2 class="section-title">第4条（個人情報の第三者提供）</h2>
+
+                    <h3 class="subsection-title">4.1 原則</h3>
+                    <p class="content-text">
+                        当方は、以下の場合を除き、あらかじめご本人の同意を得ることなく、個人情報を第三者に提供することはありません。
+                    </p>
+
+                    <h3 class="subsection-title">4.2 同意なく提供できる場合</h3>
+                    <ul class="content-list">
+                        <li>法令に基づく場合</li>
+                        <li>人の生命、身体または財産の保護のために必要がある場合であって、本人の同意を得ることが困難であるとき</li>
+                        <li>公衆衛生の向上または児童の健全な育成の推進のために特に必要がある場合であって、本人の同意を得ることが困難であるとき</li>
+                        <li>国の機関もしくは地方公共団体またはその委託を受けた者が法令の定める事務を遂行することに対して協力する必要がある場合</li>
+                    </ul>
+
+                    <h3 class="subsection-title">4.3 外部サービスとの連携</h3>
+                    <p class="content-text">
+                        本サービスは、以下の外部サービスと連携し、サービス提供のために必要な範囲で個人情報を提供します：
+                    </p>
+
+                    <div class="external-service">
+                        <p class="external-service-name">LINE株式会社（LINEプラットフォーム）</p>
+                        <p>提供する情報: LINEユーザーID、メッセージ内容、利用履歴</p>
+                        <p>利用目的: LINE公式アカウントを通じたサービス提供、メッセージ配信</p>
+                    </div>
+
+                    <div class="external-service">
+                        <p class="external-service-name">Stripe, Inc.（決済サービス）</p>
+                        <p>提供する情報: 決済情報、サブスクリプション情報</p>
+                        <p>利用目的: クレジットカード決済処理、課金管理</p>
+                    </div>
+
+                    <div class="external-service">
+                        <p class="external-service-name">OpenAI, L.L.C.（AI技術サービス）</p>
+                        <p>提供する情報: 健康データ、相談内容、会話履歴</p>
+                        <p>利用目的: AI分析による健康アドバイス生成、パーソナライズされた提案</p>
+                    </div>
+
+                    <p class="content-text">
+                        ※上記外部サービスは、各社のプライバシーポリシーに基づき個人情報を管理します。
+                    </p>
+                </div>
+
+                <!-- 第5条 -->
+                <div class="section-block">
+                    <h2 class="section-title">第5条（安全管理措置）</h2>
+
+                    <h3 class="subsection-title">5.1 技術的安全管理措置</h3>
+                    <ul class="content-list">
+                        <li>SSL/TLS暗号化による通信の保護</li>
+                        <li>ファイアウォールおよび侵入検知システムの導入</li>
+                        <li>データベースの暗号化およびアクセス制御</li>
+                        <li>定期的なセキュリティアップデートおよび脆弱性対応</li>
+                        <li>バックアップデータの暗号化保存</li>
+                    </ul>
+                </div>
+
+                <!-- 第6条 -->
+                <div class="section-block">
+                    <h2 class="section-title">第6条（保存期間）</h2>
+
+                    <h3 class="subsection-title">6.1 一般的な保存期間</h3>
+                    <p class="content-text">
+                        個人情報は、利用目的の達成に必要な期間に限り保存し、目的達成後は適切に削除または匿名化いたします。
+                    </p>
+
+                    <h3 class="subsection-title">6.2 具体的な保存期間</h3>
+                    <ul class="content-list">
+                        <li>アカウント情報: サービス利用終了から5年間</li>
+                        <li>健康データ: サービス利用終了から3年間</li>
+                        <li>決済情報: 法令に定める期間（最長7年間）</li>
+                        <li>アクセスログ: 最大90日間</li>
+                    </ul>
+                </div>
+
+                <!-- 第7条 -->
+                <div class="section-block">
+                    <h2 class="section-title">第7条（ご本人の権利）</h2>
+                    <p class="content-text">ご本人は、当方に対して以下の権利を行使することができます：</p>
+
+                    <h3 class="subsection-title">7.1 開示要求権</h3>
+                    <p class="content-text">
+                        当方が保有するご自身の個人情報の利用目的、取扱い状況等の開示を求めることができます。
+                    </p>
+
+                    <h3 class="subsection-title">7.2 訂正・追加・削除要求権</h3>
+                    <p class="content-text">
+                        保有している個人情報の内容に誤りがある場合、訂正、追加または削除を求めることができます。
+                    </p>
+
+                    <h3 class="subsection-title">7.3 利用停止・消去要求権</h3>
+                    <p class="content-text">
+                        個人情報の利用停止または消去を求めることができます。
+                    </p>
+
+                    <h3 class="subsection-title">7.4 権利行使の手続き</h3>
+                    <p class="content-text">上記権利を行使される場合は、以下の方法でご連絡ください：</p>
+                    <div class="info-box">
+                        <p>連絡先：<a href="mailto:healthy.contact.line@gmail.com">healthy.contact.line@gmail.com</a></p>
+                        <p>必要書類：本人確認書類（運転免許証等）の写し</p>
+                        <p>回答期限：要求受付後30日以内（土日祝日を除く）</p>
+                    </div>
+                </div>
+
+                <!-- 第8条 -->
+                <div class="section-block">
+                    <h2 class="section-title">第8条（お問い合わせ）</h2>
+                    <p class="content-text">個人情報の取扱いに関するお問い合わせは、以下までご連絡ください：</p>
+                    <div class="info-box">
+                        <p>メール：<a href="mailto:healthy.contact.line@gmail.com">healthy.contact.line@gmail.com</a></p>
+                    </div>
+                </div>
+
+                <!-- 第9条 -->
+                <div class="section-block">
+                    <h2 class="section-title">第9条（プライバシーポリシーの変更）</h2>
+
+                    <h3 class="subsection-title">9.1 変更の権利</h3>
+                    <p class="content-text">
+                        当方は、法令の変更、サービス内容の変更、その他必要な場合に、本プライバシーポリシーを変更することがあります。
+                    </p>
+
+                    <h3 class="subsection-title">9.2 変更の通知</h3>
+                    <p class="content-text">
+                        重要な変更の場合は、変更内容および効力発生日を、効力発生日の30日前までに本ウェブサイトまたはアプリ内にて告知いたします。
+                    </p>
+
+                    <h3 class="subsection-title">9.3 変更の効力</h3>
+                    <p class="content-text">
+                        変更後のプライバシーポリシーは、本ウェブサイトに掲載した時点から効力を生じるものとします。変更後もサービスを継続してご利用いただいた場合、変更後のプライバシーポリシーにご同意いただいたものとみなします。
+                    </p>
+                </div>
+
+                <!-- 日付情報 -->
+                <div class="date-info">
+                    <p>制定日：2026年1月16日</p>
+                    <p>最終更新日：2026年1月16日</p>
+                </div>
+            </div>
+
+            <!-- Back Link -->
+            <div class="back-link">
+                <a href="index.html">トップページに戻る</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-links">
+                <a href="index.html">トップページ</a>
+                <a href="privacy.html">プライバシーポリシー</a>
+                <a href="terms.html">利用規約</a>
+                <a href="tokushoho.html">特定商取引法表記</a>
+            </div>
+            <p class="footer-copyright">© 2025 ヘルシーくん All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when link clicked
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

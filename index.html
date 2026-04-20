@@ -1039,6 +1039,76 @@
         }
 
         /* ========================================
+           Related Services Section
+        ======================================== */
+        .related {
+            background: var(--bg-white);
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .related-content {
+            text-align: center;
+        }
+
+        .related-card {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px 32px;
+            background: linear-gradient(135deg, var(--bg-cream) 0%, var(--bg-warm-light) 100%);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .related-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .related-title {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .related-description {
+            font-size: 15px;
+            color: var(--text-body);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .related-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--text-primary);
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .related-button:hover {
+            background: var(--text-dark);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .related-button svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ========================================
            Responsive
         ======================================== */
         @media (max-width: 900px) {
@@ -1244,6 +1314,23 @@
                 width: 100%;
                 max-width: 280px;
                 justify-content: center;
+            }
+
+            .related-card {
+                padding: 32px 24px;
+            }
+
+            .related-title {
+                font-size: 18px;
+            }
+
+            .related-description {
+                font-size: 14px;
+            }
+
+            .related-button {
+                padding: 12px 20px;
+                font-size: 13px;
             }
 
             .footer {
@@ -1530,6 +1617,26 @@
                             はい、LINEで写真を送ったりメッセージを送るだけなので、スマートフォンの操作に慣れていない方でも簡単にお使いいただけます。難しい設定は一切ありません。
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Services Section -->
+    <section class="related section">
+        <div class="container">
+            <div class="related-content animate-on-scroll">
+                <div class="related-card">
+                    <h3 class="related-title">あなたの体質に合ったダイエット法は？</h3>
+                    <p class="related-description">
+                        16のダイエットタイプから、あなたにぴったりの方法を見つけませんか？
+                    </p>
+                    <a href="https://www.diet-type16.com/" target="_blank" class="related-button">
+                        Diet MBTI診断をしてみる
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7 7h8.586L5.293 17.293l1.414 1.414L17 8.414V17h2V5H7v2z"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>

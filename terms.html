@@ -34,6 +34,7 @@
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
             --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
             --radius-md: 16px;
+            --radius-lg: 24px;
         }
 
         * {
@@ -47,6 +48,7 @@
             color: var(--text-body);
             line-height: 1.8;
             background: var(--bg-warm);
+            -webkit-font-smoothing: antialiased;
         }
 
         /* Header */
@@ -157,7 +159,7 @@
         }
 
         .page-hero {
-            padding: 60px 0 40px;
+            padding: 80px 0 60px;
             text-align: center;
             background: var(--bg-white);
         }
@@ -182,81 +184,107 @@
         .content-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        .content-intro {
-            font-size: 16px;
-            margin-bottom: 40px;
-            padding: 24px;
             background: var(--bg-white);
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-lg);
+            padding: 48px 40px;
             box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
         }
 
-        h2 {
+        /* Table Style */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .info-table tr {
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .info-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .info-table th {
             font-family: 'Zen Maru Gothic', sans-serif;
-            font-size: 18px;
+            font-size: 14px;
             font-weight: 700;
             color: var(--text-primary);
-            margin: 40px 0 16px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--text-primary);
+            text-align: left;
+            padding: 20px 16px 20px 0;
+            vertical-align: top;
+            width: 160px;
+            white-space: nowrap;
         }
 
-        h2:first-of-type {
-            margin-top: 0;
+        .info-table td {
+            font-size: 14px;
+            color: var(--text-body);
+            padding: 20px 0;
+            line-height: 1.8;
         }
 
-        p {
-            margin-bottom: 16px;
+        .info-table td a {
+            color: var(--text-primary);
+            text-decoration: none;
         }
 
-        ul {
-            margin-bottom: 20px;
-            padding-left: 24px;
+        .info-table td a:hover {
+            text-decoration: underline;
         }
 
-        li {
-            margin-bottom: 8px;
-            line-height: 1.7;
+        .intro-text {
+            font-size: 16px;
+            margin-bottom: 32px;
+            padding: 24px;
+            background: var(--bg-warm-light);
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--text-primary);
         }
 
         .date-info {
-            margin-top: 60px;
-            padding: 20px;
-            background: var(--bg-white);
-            border-radius: var(--radius-md);
-            text-align: center;
-            font-size: 14px;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-light);
+            font-size: 13px;
             color: var(--text-muted);
         }
 
+        .date-info p {
+            margin-bottom: 4px;
+        }
+
+        /* Back Link */
         .back-link {
             text-align: center;
-            padding: 40px 0;
+            margin-top: 40px;
         }
 
         .back-link a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
             color: var(--text-primary);
             text-decoration: none;
-            font-size: 14px;
-            padding: 12px 24px;
-            border: 1px solid var(--text-primary);
-            border-radius: 100px;
-            transition: all 0.2s;
+            transition: opacity 0.2s;
         }
 
         .back-link a:hover {
-            background: var(--text-primary);
-            color: white;
+            opacity: 0.8;
         }
 
         /* Footer */
         .footer {
             background: var(--bg-cream);
-            padding: 40px 24px 24px;
+            padding: 60px 0 40px;
             border-top: 1px solid var(--border-light);
+        }
+
+        .footer-inner {
+            max-width: 1000px;
+            margin: 0 auto;
             text-align: center;
             font-size: 12px;
             color: var(--text-muted);
@@ -282,19 +310,37 @@
             }
 
             .content-container {
-                padding: 0 16px;
+                margin: 0 16px;
+                padding: 32px 24px;
+            }
+
+            .info-table,
+            .info-table tbody,
+            .info-table tr,
+            .info-table th,
+            .info-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .info-table tr {
+                padding-bottom: 24px;
+                margin-bottom: 24px;
+            }
+
+            .info-table th {
+                padding-bottom: 8px;
+                width: 100%;
+                white-space: normal;
+            }
+
+            .info-table td {
+                padding-top: 0;
+                padding-bottom: 0;
             }
 
             .page-hero {
-                padding: 40px 0 30px;
-            }
-
-            .content-section {
-                padding: 40px 0;
-            }
-
-            h2 {
-                font-size: 16px;
+                padding: 60px 0 40px;
             }
         }
     </style>
@@ -339,74 +385,107 @@
         <!-- Content Section -->
         <section class="content-section">
             <div class="content-container">
-                <p class="content-intro">
+                <p class="intro-text">
                     この利用規約（以下「本規約」）は、ヘルシーくん運営者（以下「当方」）が提供する「ヘルシーくん」（以下「本サービス」）の利用に関する条件を定めるものです。<br>
                     利用者は、本規約に同意のうえ、本サービスを利用するものとします。
                 </p>
 
-                <h2>第1条（本サービスについて）</h2>
-                <p>本サービスは、LINEを通じて食事の写真や内容を送信することで、食事記録、カロリー計算、食事アドバイス等を提供するサービスです。</p>
-
-                <h2>第2条（利用登録）</h2>
-                <p>利用者は、当方の定める方法により本サービスの利用を開始することができます。</p>
-                <p>当方は、必要に応じて利用開始をお断りする場合があります。</p>
-
-                <h2>第3条（利用料金）</h2>
-                <p>本サービスの利用料金は、当方が別途表示する料金プランに従うものとします。</p>
-                <p>利用者は、当方が定める方法により利用料金を支払うものとします。</p>
-
-                <h2>第4条（禁止事項）</h2>
-                <p>利用者は、本サービスの利用にあたり、以下の行為をしてはなりません。</p>
-                <ul>
-                    <li>法令または公序良俗に反する行為</li>
-                    <li>本サービスの運営を妨げる行為</li>
-                    <li>虚偽の情報を登録または送信する行為</li>
-                    <li>第三者になりすます行為</li>
-                    <li>本サービスを不正に利用する行為</li>
-                    <li>当方または第三者の権利・利益を侵害する行為</li>
-                    <li>その他、当方が不適切と判断する行為</li>
-                </ul>
-
-                <h2>第5条（サービスの変更・停止）</h2>
-                <p>当方は、必要に応じて、本サービスの内容を変更し、または全部もしくは一部の提供を停止することがあります。</p>
-
-                <h2>第6条（免責）</h2>
-                <p>当方は、本サービスにおいて提供する情報、計算結果、アドバイス等の正確性、完全性、有用性を保証するものではありません。</p>
-                <p>本サービスは、日々の食事管理をサポートすることを目的としたものであり、医療行為、診断、治療を行うものではありません。</p>
-                <p>本サービスの利用により利用者に生じた損害について、当方に故意または重過失がある場合を除き、責任を負わないものとします。</p>
-
-                <h2>第7条（退会・利用停止）</h2>
-                <p>利用者は、当方の定める方法により退会することができます。</p>
-                <p>また、利用者が本規約に違反した場合、当方は事前通知なく本サービスの利用を停止することがあります。</p>
-
-                <h2>第8条（個人情報の取扱い）</h2>
-                <p>当方は、本サービスの利用により取得した情報を、別途定めるプライバシーポリシーに従って取り扱います。</p>
-
-                <h2>第9条（規約の変更）</h2>
-                <p>当方は、必要に応じて本規約を変更することがあります。</p>
-                <p>変更後の規約は、本サービスまたは関連ページに掲載した時点から効力を生じるものとします。</p>
-
-                <h2>第10条（準拠法・裁判管轄）</h2>
-                <p>本規約の準拠法は日本法とします。</p>
-                <p>本サービスに関して紛争が生じた場合には、当方の住所地を管轄する裁判所を第一審の専属的合意管轄裁判所とします。</p>
+                <table class="info-table">
+                    <tr>
+                        <th>第1条<br>（本サービスについて）</th>
+                        <td>
+                            本サービスは、LINEを通じて食事の写真や内容を送信することで、食事記録、カロリー計算、食事アドバイス等を提供するサービスです。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>第2条<br>（利用登録）</th>
+                        <td>
+                            利用者は、当方の定める方法により本サービスの利用を開始することができます。<br>
+                            当方は、必要に応じて利用開始をお断りする場合があります。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>第3条<br>（利用料金）</th>
+                        <td>
+                            本サービスの利用料金は、当方が別途表示する料金プランに従うものとします。<br>
+                            利用者は、当方が定める方法により利用料金を支払うものとします。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>第4条<br>（禁止事項）</th>
+                        <td>
+                            利用者は、本サービスの利用にあたり、以下の行為をしてはなりません。<br>
+                            • 法令または公序良俗に反する行為<br>
+                            • 本サービスの運営を妨げる行為<br>
+                            • 虚偽の情報を登録または送信する行為<br>
+                            • 第三者になりすます行為<br>
+                            • 本サービスを不正に利用する行為<br>
+                            • 当方または第三者の権利・利益を侵害する行為<br>
+                            • その他、当方が不適切と判断する行為
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>第5条<br>（サービスの変更・停止）</th>
+                        <td>
+                            当方は、必要に応じて、本サービスの内容を変更し、または全部もしくは一部の提供を停止することがあります。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>第6条<br>（免責）</th>
+                        <td>
+                            当方は、本サービスにおいて提供する情報、計算結果、アドバイス等の正確性、完全性、有用性を保証するものではありません。<br>
+                            本サービスは、日々の食事管理をサポートすることを目的としたものであり、医療行為、診断、治療を行うものではありません。<br>
+                            本サービスの利用により利用者に生じた損害について、当方に故意または重過失がある場合を除き、責任を負わないものとします。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>第7条<br>（退会・利用停止）</th>
+                        <td>
+                            利用者は、当方の定める方法により退会することができます。<br>
+                            また、利用者が本規約に違反した場合、当方は事前通知なく本サービスの利用を停止することがあります。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>第8条<br>（個人情報の取扱い）</th>
+                        <td>
+                            当方は、本サービスの利用により取得した情報を、別途定めるプライバシーポリシーに従って取り扱います。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>第9条<br>（規約の変更）</th>
+                        <td>
+                            当方は、必要に応じて本規約を変更することがあります。<br>
+                            変更後の規約は、本サービスまたは関連ページに掲載した時点から効力を生じるものとします。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>第10条<br>（準拠法・裁判管轄）</th>
+                        <td>
+                            本規約の準拠法は日本法とします。<br>
+                            本サービスに関して紛争が生じた場合には、当方の住所地を管轄する裁判所を第一審の専属的合意管轄裁判所とします。
+                        </td>
+                    </tr>
+                </table>
 
                 <!-- 日付情報 -->
                 <div class="date-info">
                     <p>制定日：2026年1月16日</p>
                     <p>最終更新日：2026年1月16日</p>
                 </div>
-            </div>
 
-            <!-- Back Link -->
-            <div class="back-link">
-                <a href="index.html">トップページに戻る</a>
+                <!-- Back Link -->
+                <div class="back-link">
+                    <a href="index.html">← トップページに戻る</a>
+                </div>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <p>© 2025 ヘルシーくん All Rights Reserved.</p>
+        <div class="footer-inner">
+            <p>© 2025 ヘルシーくん All Rights Reserved.</p>
+        </div>
     </footer>
 
     <script>
